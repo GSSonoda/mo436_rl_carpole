@@ -1,0 +1,13 @@
+numpy
+matplotlib
+gymnasium[classic-control]
+pygame
+tqdm
+scikit-learn
+notebook
+pandas
+imageio
+imageio-ffmpeg
+black
+isort
+ruff
