@@ -1,18 +1,15 @@
 import gymnasium as gym
 import numpy as np
 
-from src.env.discretizer import Discretizer
 
-
-class CartPoleDeterministic(gym.Wrapper):
-    def __init__(self, seed: int = 10, bins=(6, 6, 12, 12)):
+class CartPoleContinuosDeterministic(gym.Wrapper):
+    def __init__(self, seed: int = 10):
         self.env = gym.make("CartPole-v1")
         super().__init__(self.env)
 
         # fix de Random Number Generation
         self.seed_value = seed
         self.np_random, _ = gym.utils.seeding.np_random(seed)
-        self.discretizer = Discretizer(bins)
 
     def reset(self, **kwargs):
         super().reset(seed=self.seed_value)
@@ -30,8 +27,8 @@ class CartPoleDeterministic(gym.Wrapper):
         )
 
         self.env.unwrapped.state = state.copy()
-        return self.discretizer.discretize(state), {}
+        return state, {}
 
     def step(self, action):
         obs, reward, done, truncated, info = self.env.step(action)
-        return self.discretizer.discretize(obs), reward, done, truncated, info
+        return obs, reward, done, truncated, info
